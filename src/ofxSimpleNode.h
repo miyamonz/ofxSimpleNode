@@ -1,3 +1,6 @@
+#pragma once
+#include "ofMain.h"
+
 struct BoneNode;
 using BoneNodeRef = shared_ptr<BoneNode>;
 
@@ -54,23 +57,4 @@ struct BoneNode {
   void update(Fn fn) {
     if(!parent) baseUpdate(fn);
   }
-  virtual void baseDraw() {
-    draw();
-    for(auto& c : children)
-      c->baseDraw();
-  }
-  virtual void draw() {
-    
-    ofPushMatrix();
-    ofMultMatrix(getTransformed());
-    
-    ofDrawAxis(100);
-    ofPopMatrix();
-  }
 };
-BoneNode BoneNode::createRoot(ofPoint p) {
-  BoneNode n;
-  n.rank = 0;
-  n.local = n.diff = ofMatrix4x4();
-  return move(n);
-}
